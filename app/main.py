@@ -2,15 +2,20 @@ import re
 import json
 import random
 import requests
+import click
 
-def main():
-    nouns = load_from_gist("nouns", 1)
-    adjectives = load_from_gist("adjectives", 1)
-    verbs = load_from_gist("verbs", 1)
-    print(f"{' '.join(adjectives)} {' '.join(nouns)} {' '.join(verbs)}")
+@click.command()
+@click.option("--verbs", "-v", default=1, help="Number of verbs to generate")
+@click.option("--nouns", "-n", default=1, help="Number of nouns to generate")
+@click.option("--adjectives", "-a", default=1, help="Number of adjectives to generate")
+def get_name(verbs: int = 1, nouns: int = 1, adjectives: int = 1) -> None:
+    snouns = load_from_gist("nouns", nouns)
+    sadjectives = load_from_gist("adjectives", adjectives)
+    sverbs = load_from_gist("verbs", verbs)
+    print(f"{' '.join(sadjectives)} {' '.join(snouns)} {' '.join(sverbs)}")
 
 
-def load_from_gist(type, count):
+def load_from_gist(type: str, count: int) -> list:
     types = [ "adjectives", "nouns", "verbs" ]
     if type not in types:
         type = "nouns"
@@ -23,5 +28,5 @@ def load_from_gist(type, count):
     jdata = json.loads(data)
     return random.sample(jdata, count)
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    get_name()
