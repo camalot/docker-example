@@ -7,7 +7,7 @@ ENV APP_VERSION=${BUILD_VERSION}
 
 LABEL VERSION="${BUILD_VERSION}"
 
-COPY ./ /app/
+COPY ./app /app/
 RUN \
 	apk update && \
 	apk add --update git curl build-base tcl tk && \
@@ -16,6 +16,8 @@ RUN \
 	apk del git build-base && \
 	rm -rf /app/setup && \
 	rm -rf /var/cache/apk/*
+
+RUN python -u /app/main.py --verbs 1 --adjectives 2 --nouns 1
 
 WORKDIR /app
 
