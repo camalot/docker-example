@@ -13,6 +13,7 @@ RUN \
 	apk add --update git curl build-base tcl tk && \
 	mkdir -p /app && \
 	pip install --upgrade pip && \
+	pip install requests && \
 	apk del git build-base && \
 	rm -rf /app/setup && \
 	rm -rf /var/cache/apk/*
